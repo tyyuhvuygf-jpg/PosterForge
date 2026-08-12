@@ -5,6 +5,7 @@
 #import <Photos/Photos.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
 @interface PFRootListController () <UITableViewDataSource,UITableViewDelegate,PHPickerViewControllerDelegate,UIDocumentPickerDelegate>
 @property UITableView *table;
@@ -33,7 +34,7 @@
     PHPickerViewController *picker=[[PHPickerViewController alloc]initWithConfiguration:config]; picker.delegate=self; [self presentViewController:picker animated:YES completion:nil];
 }
 - (void)pickTendies {
-    UIDocumentPickerViewController *picker=[[UIDocumentPickerViewController alloc]initWithDocumentTypes:@[@"public.archive",@"public.data"] inMode:UIDocumentPickerModeImport]; picker.delegate=self; picker.allowsMultipleSelection=NO; [self presentViewController:picker animated:YES completion:nil];
+    UIDocumentPickerViewController *picker=[[UIDocumentPickerViewController alloc]initForOpeningContentTypes:@[UTTypeArchive,UTTypeData] asCopy:YES]; picker.delegate=self; picker.allowsMultipleSelection=NO; [self presentViewController:picker animated:YES completion:nil];
 }
 - (void)picker:(PHPickerViewController *)picker didFinishPicking:(NSArray<PHPickerResult *> *)results {
     [picker dismissViewControllerAnimated:YES completion:nil]; PHPickerResult *result=results.firstObject; if(!result)return; NSItemProvider *p=result.itemProvider;
