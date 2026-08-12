@@ -3,6 +3,8 @@ Name: PosterForge
 Version: 0.1.0
 Architecture: iphoneos-arm
 Description: On-device custom photo, video and Tendies posters for the iOS 16 wallpaper gallery.
+Homepage: https://mubixbyte.github.io/PosterForge/
+Depiction: https://mubixbyte.github.io/PosterForge/
 Maintainer: PosterForge
 Author: PosterForge
 Section: Tweaks

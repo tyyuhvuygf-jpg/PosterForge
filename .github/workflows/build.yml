@@ -3,6 +3,8 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ]
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: macos-15
@@ -22,3 +24,33 @@ jobs:
         with:
           name: PosterForge-rootless
           path: packages/*.deb
+      - name: Create APT repository
+        run: |
+          mkdir -p repo/debs
+          cp packages/*.deb repo/debs/
+          cd repo
+          dpkg-scanpackages -m debs /dev/null > Packages
+          gzip -9c Packages > Packages.gz
+          bzip2 -9c Packages > Packages.bz2
+          cat > Release <<'EOF'
+          Origin: PosterForge
+          Label: PosterForge
+          Suite: stable
+          Version: 1.0
+          Codename: ios
+          Architectures: iphoneos-arm
+          Components: main
+          Description: Native photo and video wallpapers for iOS 16
+          EOF
+          cat > index.html <<'EOF'
+          <!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+          <title>PosterForge Repository</title><style>body{font:17px -apple-system,BlinkMacSystemFont,sans-serif;max-width:680px;margin:60px auto;padding:24px;background:#0b0b0d;color:#f5f5f7}a{color:#64a8ff}.card{background:#1c1c1e;border-radius:18px;padding:24px}</style>
+          <div class="card"><h1>PosterForge</h1><p>APT repository for Sileo, Zebra and Cydia.</p><p><a href="sileo://source/https://mubixbyte.github.io/PosterForge/">Add to Sileo</a></p><code>https://mubixbyte.github.io/PosterForge/</code></div>
+          EOF
+      - name: Publish APT repository
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./repo
+          publish_branch: gh-pages
+          force_orphan: true
