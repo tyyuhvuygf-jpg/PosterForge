@@ -98,7 +98,7 @@ static BOOL PFWritePlist(id object, NSString *path, NSError **error) {
 }
 
 - (UIImage *)processedImage:(UIImage *)image blurred:(BOOL)blurred {
-    if(!blurred)return image; CIImage *input=[[CIImage alloc]initWithImage:image]; CIFilter *filter=[CIFilter filterWithName:@"CIGaussianBlur" parameters:@{kCIInputImageKey:input,kCIInputRadiusKey:@28}];
+    if(!blurred)return image; CIImage *input=[[CIImage alloc]initWithImage:image]; CIFilter *filter=[CIFilter filterWithName:@"CIGaussianBlur"]; [filter setValue:input forKey:kCIInputImageKey]; [filter setValue:@28 forKey:kCIInputRadiusKey];
     CIContext *context=[CIContext contextWithOptions:nil]; CGImageRef cg=[context createCGImage:filter.outputImage fromRect:input.extent]; UIImage *result=[UIImage imageWithCGImage:cg];CGImageRelease(cg);return result;
 }
 
