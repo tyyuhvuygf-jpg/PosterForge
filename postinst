@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+mkdir -p "/var/mobile/Library/Application Support/PosterForge/Library"
+mkdir -p "/var/mobile/Library/Application Support/PosterForge/Requests"
+mkdir -p "/var/mobile/Library/Application Support/PosterForge/Completed"
+chown -R mobile:mobile /var/mobile/Library/Application\ Support/PosterForge
+chmod -R 0775 /var/mobile/Library/Application\ Support/PosterForge
+launchctl bootout system/com.posterforge.daemon 2>/dev/null || true
+launchctl bootstrap system /var/jb/Library/LaunchDaemons/com.posterforge.daemon.plist 2>/dev/null || true
+launchctl kickstart -k system/com.posterforge.daemon 2>/dev/null || true
+killall -9 Preferences PosterBoard 2>/dev/null || true
+exit 0

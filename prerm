@@ -1,0 +1,4 @@
+#!/bin/sh
+launchctl bootout system/com.posterforge.daemon 2>/dev/null || true
+killall -9 Preferences PosterBoard 2>/dev/null || true
+exit 0

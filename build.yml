@@ -1,0 +1,24 @@
+name: Build rootless deb
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Theos
+        run: |
+          brew install ldid make xz
+          git clone --recursive https://github.com/theos/theos.git "$HOME/theos"
+      - name: Build
+        env:
+          THEOS: ${{ github.workspace }}/../theos
+        run: |
+          export THEOS="$HOME/theos"
+          gmake clean package FINALPACKAGE=1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PosterForge-rootless
+          path: packages/*.deb
