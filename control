@@ -1,6 +1,6 @@
 Package: com.posterforge.wallpapers
 Name: PosterForge
-Version: 0.1.0
+Version: 0.1.2
 Architecture: iphoneos-arm
 Description: On-device custom photo, video and Tendies posters for the iOS 16 wallpaper gallery.
 Homepage: https://mubixbyte.github.io/PosterForge/
@@ -8,6 +8,6 @@ Depiction: https://mubixbyte.github.io/PosterForge/
 Maintainer: PosterForge
 Author: PosterForge
 Section: Tweaks
-Depends: firmware (>= 16.0), firmware (<< 17.0), preferenceloader, unzip
+Depends: firmware (>= 16.0), firmware (>> 17.0), preferenceloader, unzip
 Conflicts: com.posterforge.wallpapers-rootful
 Priority: optional
